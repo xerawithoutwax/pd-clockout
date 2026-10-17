@@ -1,0 +1,39 @@
+PD칼퇴도우미 / PD Clockout v0.1.0
+GitHub 모바일 빌드 초간단 가이드
+
+준비된 파일
+1) PDClockout-source-v0.1.0.zip
+2) android-debug.yml
+
+[A. 소스 ZIP 올리기]
+1. 브라우저에서 https://github.com/xerawithoutwax/pd-clockout 접속
+2. Add file → Upload files
+3. PDClockout-source-v0.1.0.zip 선택
+4. 아래 Commit changes 버튼
+
+[B. 빌드 workflow 만들기]
+1. 저장소 상단 Actions 탭
+2. 처음이라면 'set up a workflow yourself'를 누릅니다.
+   이미 Actions 화면이 보이면 New workflow → set up a workflow yourself
+3. 파일 이름을 아래와 정확히 입력
+   .github/workflows/android-debug.yml
+4. 이 패키지의 android-debug.yml 내용을 전체 복사해 붙여넣기
+5. Commit changes
+
+[C. APK 만들기]
+workflow 파일을 커밋하면 자동 빌드가 한 번 실행됩니다.
+자동 실행이 안 되면:
+1. Actions → Build PD Clockout APK
+2. Run workflow → Run workflow
+3. 초록 체크가 뜬 실행 결과를 엽니다.
+4. 화면 아래 Artifacts → PDClockout-v0.1.0-debug
+5. ZIP을 내려받아 압축 해제
+6. PDClockout-v0.1.0-debug.apk를 휴대폰에 설치
+
+[설치 시]
+- Android에서 '이 출처의 앱 설치 허용'이 처음 한 번 필요할 수 있습니다.
+- Play Protect 경고는 개인 debug APK라 표시될 수 있습니다. 설치 파일 출처가 본인의 GitHub Actions인지 확인한 뒤 진행하세요.
+
+[빌드가 빨간 X로 실패하면]
+Actions에서 실패한 실행을 열고 빨간 단계 이름과 마지막 오류 부분을 캡처해서 ChatGPT에 보내세요.
+그 로그 기준으로 소스를 수정하면 됩니다.

@@ -1,0 +1,60 @@
+name: Build PD Clockout APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - 'PDClockout-source-v0.1.0.zip'
+      - '.github/workflows/android-debug.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract Android source
+        run: |
+          rm -rf android-src
+          mkdir android-src
+          unzip -q PDClockout-source-v0.1.0.zip -d android-src
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Gradle 8.13
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.13'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android API 36
+        run: sdkmanager "platforms;android-36" "build-tools;35.0.0"
+
+      - name: Build debug APK
+        working-directory: android-src
+        run: gradle :app:assembleDebug --stacktrace
+
+      - name: Collect APK
+        run: |
+          cp android-src/app/build/outputs/apk/debug/app-debug.apk PDClockout-v0.1.0-debug.apk
+          ls -lh PDClockout-v0.1.0-debug.apk
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: PDClockout-v0.1.0-debug
+          path: PDClockout-v0.1.0-debug.apk
+          if-no-files-found: error
+          retention-days: 14

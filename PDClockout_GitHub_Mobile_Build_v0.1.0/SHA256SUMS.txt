@@ -1,0 +1,2 @@
+ce2cfeba2fe0448313241c27ccce9a5941588289bf8dafae949a3c4f99b3b259  PDClockout-source-v0.1.0.zip
+bdbcb611e84cb471741d3ca4e3b807ee6efe8aa25b4a330227ad24fef55d16c6  android-debug.yml
