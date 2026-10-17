@@ -3,10 +3,7 @@ name: Build PD Clockout APK
 on:
   workflow_dispatch:
   push:
-    branches: [ main ]
-    paths:
-      - 'PDClockout-source-v0.1.0.zip'
-      - '.github/workflows/android-debug.yml'
+    branches: [ main, master ]
 
 permissions:
   contents: read
@@ -18,12 +15,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Extract Android source
-        run: |
-          rm -rf android-src
-          mkdir android-src
-          unzip -q PDClockout-source-v0.1.0.zip -d android-src
 
       - name: Set up JDK 17
         uses: actions/setup-java@v5
@@ -44,18 +35,15 @@ jobs:
           "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platform-tools" "platforms;android-36" "build-tools;35.0.0"
 
       - name: Build debug APK
-        working-directory: android-src
         run: gradle :app:assembleDebug --stacktrace
 
-      - name: Collect APK
-        run: |
-          cp android-src/app/build/outputs/apk/debug/app-debug.apk PDClockout-v0.1.0-debug.apk
-          ls -lh PDClockout-v0.1.0-debug.apk
+      - name: Rename APK
+        run: cp app/build/outputs/apk/debug/app-debug.apk "PD칼퇴도우미-v0.2.0-debug.apk"
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: PDClockout-v0.1.0-debug
-          path: PDClockout-v0.1.0-debug.apk
+          name: PDClockout-v0.2.0-debug
+          path: PD칼퇴도우미-v0.2.0-debug.apk
           if-no-files-found: error
           retention-days: 14

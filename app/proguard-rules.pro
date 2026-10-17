@@ -1,0 +1,3 @@
+-keep class com.yausername.** { *; }
+-keep class kotlin.** { *; }
+-dontwarn org.apache.commons.**
